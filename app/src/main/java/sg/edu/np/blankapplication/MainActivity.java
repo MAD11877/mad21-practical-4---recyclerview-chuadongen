@@ -15,40 +15,32 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
-    public class User{
-        String name;
-        String description;
-        int id;
-        boolean followed;
-
-        public User(String n, String d, int i, boolean f){
-            name=n;
-            description=d;
-            id=i;
-            followed=f;
-        }
-    }
-    User user1 = new User("Tommy","My name is tommy, I am a student at Ngee Ann Polytechnic",123456,false);
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView nameTextView = (TextView) findViewById(R.id.nameTextView);
-        nameTextView.setText(user1.name);
-        TextView descriptionTextView = (TextView) findViewById(R.id.descriptionTextView);
-        descriptionTextView.setText(user1.description);
-        Button followButton = (Button) findViewById(R.id.followButton);
-        //Prac 3
+        //Parse intent
         Intent in = getIntent();
-        TextView display = findViewById(R.id.nameTextView);
-        String prevText = (String) display.getText();
-        String rng = String.valueOf(in.getIntExtra("randomNumber",0));
-        display.setText(prevText+" "+rng);
-        //
+        Integer index = in.getIntExtra("index",0);
+        User user1 = User.userList.get(index);
+        //get  widgets
+        TextView nameTextView = (TextView) findViewById(R.id.nameTextView);
+        TextView descriptionTextView = (TextView) findViewById(R.id.descriptionTextView);
+        Button followButton = (Button) findViewById(R.id.followButton);
+        //set text
+        nameTextView.setText(user1.name);
+        descriptionTextView.setText(user1.description);
+        if(user1.followed){
+            followButton.setText("Unfollow");
+        }else{
+            followButton.setText("Follow");
+        }
+
+
+        //String prevText = (String) display.getText();
+        //String rng = String.valueOf(in.getIntExtra("randomNumber",0));
+        //display.setText(prevText+" "+rng);
         followButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
